@@ -1,7 +1,7 @@
 import streamlit as st
 import google.generativeai as genai
 
-# Configuración básica
+# Configuración
 API_KEY = "AIzaSyDf4tud4WVeBB3LxYeeuPEa0IXJONIOAFE"
 genai.configure(api_key=API_KEY)
 
@@ -11,26 +11,26 @@ st.title("🤖 BridgeBot: English Tutor")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Dibujar el historial
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-if prompt := st.chat_input("Escribe en inglés..."):
+if prompt := st.chat_input("Type in English..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
     try:
-        # Intentamos con el modelo Pro que es el más estable
-        model = genai.GenerativeModel('gemini-1.5-pro')
-        
-        instruccion = f"You are an English tutor. Correct the grammar if needed and reply: {prompt}"
-        response = model.generate_content(instruccion)
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(f"You are an English tutor. Correct and reply to: {prompt}")
+        bot_text = response.text
         
         with st.chat_message("assistant"):
-            st.markdown(response.text)
-        st.session_state.messages.append({"role": "assistant", "content": response.text})
-        
+            st.markdown(bot_text)
+            # Código de audio
+            audio_url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={bot_text.replace(' ', '%20')[:200]}&tl=en&client=tw-ob"
+            st.components.v1.html(f'<audio src="{audio_url}" autoplay style="display:none;"></audio>', height=0)
+
+        st.session_state.messages.append({"role": "assistant", "content": bot_text})
     except Exception as e:
         st.error(f"Error: {e}")
