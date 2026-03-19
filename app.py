@@ -24,7 +24,7 @@ if prompt := st.chat_input("Type in English..."):
 
     try:
         # Usamos el nombre de modelo más estándar
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('models/gemini-1.5-flash')
         
         context = f"You are BridgeBot, a friendly English tutor. The user said: '{prompt}'. If there is a mistake, correct it briefly. Then continue the conversation in English."
         
