@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # CONFIGURACIÓN CRÍTICA
-genai.configure(api_key="TU_API_KEY_AQUI") # <--- PEGA TU LLAVE AQUÍ
+genai.configure(api_key="AIzaSyDf4tud4WVeBB3LxYeeuPEa0IXJONIOAFE") # <--- PEGA TU LLAVE AQUÍ
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.set_page_config(page_title="BridgeBot AI", page_icon="🤖")
