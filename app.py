@@ -23,16 +23,15 @@ if prompt := st.chat_input("Type in English..."):
         st.markdown(prompt)
 
     try:
-        # Usamos el nombre de modelo más estándar
+        # Probamos con el nombre completo del modelo
         model = genai.GenerativeModel('models/gemini-1.5-flash')
         
-        context = f"You are BridgeBot, a friendly English tutor. The user said: '{prompt}'. If there is a mistake, correct it briefly. Then continue the conversation in English."
-        
-        response = model.generate_content(context)
+        # Un prompt más sencillo para evitar errores de contexto
+        response = model.generate_content(f"Correct this English: {prompt}")
         
         with st.chat_message("assistant"):
             st.markdown(response.text)
         st.session_state.messages.append({"role": "assistant", "content": response.text})
-        
     except Exception as e:
-        st.error(f"BridgeBot is sleeping. Check your API Key. Error: {e}")
+        # Esto nos dirá el error exacto si falla
+        st.error(f"Dijo la IA: {e}")
